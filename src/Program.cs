@@ -1,5 +1,7 @@
+using cliente_solution.infrastructure;
 using cliente_solution.useCases.ClienteContatoUseCases;
 using cliente_solution.useCases.ClienteUseCases;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//adicionando o dbcontext.
+//para fins de simplificação, vou utilizar o SQLite, mas o processo é o mesmo para qualquer outro tipo de banco de dados
+builder.Services.AddDbContext<ClienteSolutionContext>(op => {
+    op.UseSqlite("Data Source=clientes.db");
+});
 
 //(sim, não precisamos definir uma interface para tudo rsrsrsrs)
 builder.Services.AddScoped<CriarClienteContatoUseCase>();
