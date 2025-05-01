@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace cliente_solution.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class ClienteContatoController (
     CriarClienteContatoUseCase criarClienteContatoUseCase,
     BuscarTodosClienteContatosUseCase buscarTodosClienteContatosUseCase,
     AtualizarClienteContatoUseCase atualizarClienteContatoUseCase,
     RemoverClienteContatoUseCase removerClienteContatoUseCase
-) : Controller
+) : ControllerBase
 {
     [HttpGet]
     public List<ClienteContato> BuscarTodos(int clienteId)

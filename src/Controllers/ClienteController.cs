@@ -4,13 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace cliente_solution.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class ClienteController (
     CriarClienteUseCase criarClienteUseCase,
     BuscarTodosClientesUseCase buscarTodosClientesUseCase,
     AtualizarClienteUseCase atualizarClienteUseCase,
     RemoverClienteUseCase removerClienteUseCase
 
-) : Controller
+) : ControllerBase
 {
     //agora que temos os casos de uso programados, podemos implementar as rotas da nossa API
     //para chamar os casos de uso basta receber pelo construtor
