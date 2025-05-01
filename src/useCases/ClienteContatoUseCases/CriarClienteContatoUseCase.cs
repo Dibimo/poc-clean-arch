@@ -9,7 +9,10 @@ public class CriarClienteContatoUseCase(ClienteContatoRepository repository)
 
     public void Executar(int clienteId,string nome, string email, string telefone)
     {
-        var contato = new ClienteContato(nome, email, telefone);
-        _repository.Adicionar(clienteId, contato);
+        //como adicionamos o id do cliente, precisamos passar ele como parâmetro para o construtor
+        //também vou aproveitar para remover o cliente id do método de adicionar, ele não é necessário.
+        //(cuidado ao pedir para a IA fazer as coisas por vocé)
+        var contato = new ClienteContato(nome, email, telefone, clienteId);
+        _repository.Adicionar(contato);
     }
 }

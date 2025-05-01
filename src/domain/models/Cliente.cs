@@ -9,12 +9,15 @@ public class Cliente : Base
 
     public string Email { get; private set; }
 
+    public ICollection<ClienteContato> Contatos { get; private set; }
+
     //aqui estamos definido a nossa regra de negócio, eu não posso ter um cliente sem um nome, documento e email
     public Cliente(string nome, string documento, string email)
     {
         Nome = nome;
         Documento = documento;
         Email = email;
+        Contatos = new List<ClienteContato>();
     }
 
     //como nossas atributos não podem ser alterados por quem chama a nossa classe de cliente, precisamos expor o que é possível fazer com ela.

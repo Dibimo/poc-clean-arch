@@ -1,4 +1,6 @@
+using cliente_solution.domain.repository;
 using cliente_solution.infrastructure;
+using cliente_solution.infrastructure.data.repositories;
 using cliente_solution.useCases.ClienteContatoUseCases;
 using cliente_solution.useCases.ClienteUseCases;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +30,9 @@ builder.Services.AddScoped<CriarClienteUseCase>();
 builder.Services.AddScoped<BuscarTodosClientesUseCase>();
 builder.Services.AddScoped<AtualizarClienteUseCase>();
 builder.Services.AddScoped<RemoverClienteUseCase>();
+
+builder.Services.AddScoped<ClienteRepository, ClienteRepositoryImp>();
+builder.Services.AddScoped<ClienteContatoRepository, ClienteContatoRepositoryImp>();
 
 var app = builder.Build();
 

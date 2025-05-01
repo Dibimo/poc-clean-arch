@@ -6,11 +6,15 @@ public class ClienteContato : Base{
 
     public string Telefone { get; private set; }
 
-    public ClienteContato(string nome, string email, string telefone)
+    public int ClienteId { get; private set; }
+    public Cliente Cliente { get; private set; }
+
+    public ClienteContato(string nome, string email, string telefone, int clienteId)
     {
         Nome = nome;
         Email = email;
         Telefone = telefone;
+        ClienteId = clienteId;
     }
 
     //seguindo o mesmo padrão da classe de cliente, vou implementar os métodos de atualização
