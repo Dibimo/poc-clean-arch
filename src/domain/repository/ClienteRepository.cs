@@ -19,5 +19,7 @@ public interface ClienteRepository
     //retorna um booleano para indicar se o cliente foi removido ou não
     bool Remover(int ClienteId);
 
+    Cliente BuscarPorId(int ClienteId);
+
     List<Cliente> BuscarTodos();
 }
