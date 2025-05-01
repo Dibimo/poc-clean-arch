@@ -17,7 +17,7 @@ public interface ClienteRepository
     int Atualizar(Cliente cliente);
 
     //retorna um booleano para indicar se o cliente foi removido ou não
-    bool Remover(Cliente cliente);
+    bool Remover(int ClienteId);
 
     List<Cliente> BuscarTodos();
 }

@@ -9,7 +9,7 @@ public interface ClienteContatoRepository
 
     int Atualizar(ClienteContato contato);
 
-    bool Remover(ClienteContato contato);
+    bool Remover(int clienteContatoId);
 
     List<ClienteContato> BuscarTodos(int ClienteId);
 }
