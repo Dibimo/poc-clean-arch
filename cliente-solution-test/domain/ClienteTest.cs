@@ -29,20 +29,23 @@ public class ClienteTest
     //Ao_criar_nao_deve_aceitar_numeros_no_nome -> CriarCliente_NomeComNaoAlfabeticos_DeveLancarException
 
 
-    [Fact]
-    public void Ao_Atualizar_nome_nao_deve_aceitar_numeros()
+    [Theory]
+    [InlineData("123")]
+    [InlineData("1234W")]
+    [InlineData("     ")]
+    public void AtualizarCliente_NomeComNaoAlfabeticos_DeveLancarException(string nomeInvalido)
     {
         //arrange
         var cliente = new Cliente("nome", "12345678901", "teste@teste.com.br");
-        var nome_invalido = "123";
 
         //act & assert
-        Assert.Throws<Exception>(() => cliente.AtualizarNome(nome_invalido)); //esse está correto
+        Assert.Throws<Exception>(() => cliente.AtualizarNome(nomeInvalido));
     }
 
 
+    //nesse caso, não precisamos de uma Theory, pois de fato, existe apenas um cenário valiado para a regra
     [Fact]
-    public void Ao_criar_nao_deve_aceitar_nomes_menores_que_3_caracteres()
+    public void CriarCliente_NomeMenorQue3_DeveLancarException()
     {
         //arrange
         var nome_invalido = "d";
@@ -54,7 +57,7 @@ public class ClienteTest
     }
 
     [Fact]
-    public void Ao_Atualizar_nome_nao_deve_aceitar_nomes_menores_que_3_caracteres()
+    public void AtualizarCliente_NomeMenorQue3_DeveLancarException()
     {
         //arrange
         var cliente = new Cliente("nome", "12345678901", "teste@teste.com.br");
@@ -64,32 +67,33 @@ public class ClienteTest
         Assert.Throws<Exception>(() => cliente.AtualizarNome(nome_invalido));
     }
 
-    [Fact]
-
-    public void Ao_criar_nao_deve_aceitar_letras_no_documento()
+    [Theory]
+    [InlineData("123456789a")]
+    [InlineData("123456789 ")]
+    public void CriarCliente_DocumentoComNaoNumeros_DeveLancarException(string documentoInvalido)
     {
         //arrange
         var nome = "nome";
-        var documento_invalido = "123456789a";
         var email = "teste@teste.com.br";
 
         //act & assert
-        Assert.Throws<Exception>(() => new Cliente(nome, documento_invalido, email));
+        Assert.Throws<Exception>(() => new Cliente(nome, documentoInvalido, email));
     }
 
-    [Fact]
-    public void Ao_Atualizar_documento_nao_deve_aceitar_letras()
+    [Theory]
+    [InlineData("123456789a")]
+    [InlineData("123456789 ")]
+    public void AtualizarCliente_DocumentoComNaoNumeros_DeveLancarException(string documentoInvalido)
     {
         //arrange
         var cliente = new Cliente("nome", "12345678901", "teste@teste.com.br");
-        var documento_invalido = "123456789a";
 
         //act & assert
-        Assert.Throws<Exception>(() => cliente.AtualizarDocumento(documento_invalido));
+        Assert.Throws<Exception>(() => cliente.AtualizarDocumento(documentoInvalido));
     }
 
     [Fact]
-    public void Ao_criar_nao_deve_aceitar_documentos_menores_que_11_caracteres()
+    public void CriarCliente_DocumentoMenorQue11Caracteres_DeveLancarException()
     {
         //arrange
         var nome = "nome";
@@ -101,7 +105,7 @@ public class ClienteTest
     }
 
     [Fact]
-    public void Ao_Atualizar_documento_nao_deve_aceitar_documentos_menores_que_11_caracteres()
+    public void AtualizarCliente_DocumentoMenorQue11Caracteres_DeveLancarException()
     {
         //arrange
         var cliente = new Cliente("nome", "12345678901", "teste@teste.com.br");
@@ -112,7 +116,7 @@ public class ClienteTest
     }
 
     [Fact]
-    public void Ao_criar_nao_deve_aceitar_emails_sem_arroba()
+    public void CriarCliente_ComEmailSemArroba_DeveLancarException()
     {
         //arrange
         var nome = "nome";
@@ -124,7 +128,7 @@ public class ClienteTest
     }
 
     [Fact]
-    public void Ao_Atualizar_email_nao_deve_aceitar_emails_sem_arroba()
+    public void AtualizarCliente_ComEmailSemArroba_DeveLancarException()
     {
         //arrange
         var cliente = new Cliente("nome", "12345678901", "teste@teste.com.br");
