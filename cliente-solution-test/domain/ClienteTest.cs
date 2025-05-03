@@ -4,6 +4,15 @@ namespace cliente_solution_test.domain;
 
 public class ClienteTest
 {
+    public static IEnumerable<object[]> ClientesValidos =>
+        new List<object[]>
+        {
+            new object[] { "Diogo", "12345678901", "diogo@digo" },
+            new object[] { "Ryan", "12345678901", "ryan@ryan" },
+            new object[] { "Natalia Luiza", "12345678901", "natlu@nat" }, //nome composto
+            new object[] { "Luíz", "12345678901", "luiz@luiz" } //nome com acento
+        };
+
     /*
         o [Fact] é para casos onde temos um cenário de teste.
         se quisermos, e é recomendado, que testemos mais de um cenário de teste, podemos usar o [Theory]
@@ -137,6 +146,22 @@ public class ClienteTest
         //act & assert
         Assert.Throws<Exception>(() => cliente.AtualizarEmail(email_invalido));
     }
+
+    //agora que temos todos os casos de erros validados, ou seja, validamos tudo que as regras não nos deixam fazer, vamos validar os casos de sucesso.
+    //é bom validar os casos de sucesos também para não sermos pegos de surpresa com algum efeito colateral das validações que não esperamos
+
+    //para isso vamos usar outra tag do x unit, a de Member Data. Essa tag nada mais é do que uma coleção dos InlineData que usamos até agora
+
+    [Theory]
+    [MemberData(nameof(ClientesValidos))]
+    public void CriarClientes_Validos_DeveCriarClientes(string nome, string documento, string email)
+    {
+        var exception = Record.Exception(() => new Cliente(nome, documento, email));
+        Assert.Null(exception);
+    }
+
+    //se rodarmos o teste, veremos que ele não deu certo...isso porque "Natalia Luiza" tem espaço no nome.
+    //ou seja, pegamos mais uma falha de lógica de negócio, nosso cliente não pode ter nome composto.
 
 
 }
