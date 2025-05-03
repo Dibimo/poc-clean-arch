@@ -1,8 +1,9 @@
 namespace cliente_solution.domain.models;
 
+//vou remover os comentários do passo anterior para deixar mais limpo
 public class Cliente : Base
 {
-    //Precisamos acessar os atributos, mas queremos que eles não sejam editaveis
+    //vamos criar um setter para cada campo
     public string Nome { get; private set; }
 
     public string Documento { get; private set; }
@@ -11,32 +12,35 @@ public class Cliente : Base
 
     public ICollection<ClienteContato> Contatos { get; private set; }
 
-    //aqui estamos definido a nossa regra de negócio, eu não posso ter um cliente sem um nome, documento e email
     public Cliente(string nome, string documento, string email)
     {
-        Nome = nome;
-        Documento = documento;
-        Email = email;
+        SetNome(nome);
+        SetDocumento(documento);
+        SetEmail(email);
         Contatos = new List<ClienteContato>();
     }
 
-    //como nossas atributos não podem ser alterados por quem chama a nossa classe de cliente, precisamos expor o que é possível fazer com ela.
-    //isso é feito por meio dos métodos publicos.
-    //assim podemos controlar o que é feito com os nossos dados e garantir que todas as nossas regras sejam corretamente aplicadas.
-
-    //nesse caso, eu vou só validar se existe um "@" no email que está sendo passado para minha classe.
     public void AtualizarEmail(string email)
-    {
-        if (!email.Contains("@"))
-            throw new Exception("Email inválido"); //o correto nesse caso séria ter um tipo de Exception personalizado, mas para fins didácticos, vou deixar assim.
+        => SetEmail(email);
 
-        Email = email;
+    public void AtualizarDocumento(string documento)
+        => SetDocumento(documento);
+
+    public void AtualizarNome(string nome)
+        => SetNome(nome);
+
+    private void SetNome(string nome)
+    {
+        if (nome.Length < 3)
+            throw new Exception("Nome inválido");
+
+        if (!nome.All(char.IsLetter))
+            throw new Exception("Nome inválido");
+
+        Nome = nome;
     }
 
-    //vou fazer a mesma coisa com os outros dois campos
-
-    //a regra que eu quero no documento é ver se ele tem pelo menos 11 caracteres e se ele contém apenas números
-    public void AtualizarDocumento(string documento)
+    private void SetDocumento(string documento)
     {
         if (documento.Length < 11)
             throw new Exception("Documento inválido");
@@ -47,17 +51,45 @@ public class Cliente : Base
         Documento = documento;
     }
 
-    //no caso do nome, vou ver se ele tem pelo menos 3 caracteres e se ele contém apenas letras
-    public void AtualizarNome(string nome)
+    private void SetEmail(string email)
     {
-        if (nome.Length < 3)
-            throw new Exception("Nome inválido");
+        if (!email.Contains("@"))
+            throw new Exception("Email inválido");
 
-        if (!nome.All(char.IsLetter))
-            throw new Exception("Nome inválido");
-
-        Nome = nome;
+        Email = email;
     }
+
+
+    /*
+    sim, existem outras abordagens validas para chegar no mesmo resultado
+
+    1. poderia chamar os métodos antigos de "Atualizar" no construtor, ficando assim:
+
+        public Cliente(string nome, string documento, string email)
+        {
+            AtualizarNome(nome);
+            AtualizarDocumento(documento);
+            AtualizarEmail(email);
+            Contatos = new List<ClienteContato>();
+        }
+    Mas achei estranho o conceito de estar "construindo algo" (que eu ainda não tenho) e já estar chamando métodos de "Atualizar"
+
+    2. também poderia simplementes renomear os método de "atualizar" para "set", ficando assim:
+
+        public void SetNome(string nome)
+        {
+            if (nome.Length < 3)
+                throw new Exception("Nome inválido");
+
+            if (!nome.All(char.IsLetter))
+                throw new Exception("Nome inválido");
+            Nome = nome;
+        }
+    porém o termo "atualizar" deixa o código mais semanântico. Pensando que a regra de negócio é o centro, "atualizar" é um termo de negócio.
+    "set" é um termo tecnico da programação.
+    Fora que "atualizar" não tira a possibilidade de outras coisas serém feitas junto com o "set" (salvar em um histórico por exemplo)
+    agora "set" presume que o valor apenas será atribuido.
+    */
 
 
 }
