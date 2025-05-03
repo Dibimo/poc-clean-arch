@@ -31,14 +31,28 @@ public class Cliente : Base
 
     private void SetNome(string nome)
     {
+        //no último passo vimos que nossa regra não aceita nomes compostos.
+        //para corrigir isso vamos fazer uma validação para espaços duplos no nome
+        //ter espaço não é errado nome, apenas ter espaços duplos
+
+        //também podemos aproveitar para higienizar o nome, executando um Trim
+
         if (nome.Length < 3)
             throw new Exception("Nome inválido");
 
-        if (!nome.All(char.IsLetter))
+        if (nome.All(char.IsWhiteSpace))
             throw new Exception("Nome inválido");
 
-        Nome = nome;
+        var splitedNome = nome.Split(" ");
+        if (!splitedNome.SelectMany(x => x).All(char.IsLetter))
+            throw new Exception("Nome inválido");
+
+        Nome = nome.Trim(); //esse é o tipo de caso não compensa "validar" e jogar para o usuário corrigir, é melhor que o sistema corrija sozinho
     }
+
+    //com a validação nova adicionada, podemos rodar nossos testes e veremos que todos eles passam normalmente
+    //ou seja, não inputmos novos bugs (os casos de antes continuam funionando normalmente)
+    //e corrigimos o bug que não permitia nomes compostos
 
     private void SetDocumento(string documento)
     {
