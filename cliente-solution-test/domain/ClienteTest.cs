@@ -13,10 +13,6 @@ public class ClienteTest
             new object[] { "Luíz", "12345678901", "luiz@luiz" } //nome com acento
         };
 
-    /*
-        o [Fact] é para casos onde temos um cenário de teste.
-        se quisermos, e é recomendado, que testemos mais de um cenário de teste, podemos usar o [Theory]
-    */
     [Theory]
     [InlineData("123")] //teste que já tinhamos antes
     [InlineData("1234W")] //letras e numeros
@@ -31,11 +27,6 @@ public class ClienteTest
         Assert.Throws<Exception>(() => new Cliente(nome_invalido, documento, email));
     }
 
-    //se rodarmos o teste, veremos que ele da certo. Ou seja... nossa classe de cliente não apenas não aceita números, como também valida espaços em branco
-
-    //então podemos renomear o teste para ficar mais claro qual de fato é nossa regra.
-    //sempre bom lembrar: testes também servem como documentação de regras
-    //Ao_criar_nao_deve_aceitar_numeros_no_nome -> CriarCliente_NomeComNaoAlfabeticos_DeveLancarException
 
 
     [Theory]
@@ -52,13 +43,12 @@ public class ClienteTest
     }
 
 
-    //nesse caso, não precisamos de uma Theory, pois de fato, existe apenas um cenário valiado para a regra
     [Fact]
     public void CriarCliente_NomeMenorQue3_DeveLancarException()
     {
         //arrange
         var nome_invalido = "d";
-        var documento = "12345678901"; //como estamos validando o nome primeiro, vamos deixar os demais parâmetros validos
+        var documento = "12345678901";
         var email = "teste@teste.com.br";
 
         //act & assert
@@ -147,10 +137,6 @@ public class ClienteTest
         Assert.Throws<Exception>(() => cliente.AtualizarEmail(email_invalido));
     }
 
-    //agora que temos todos os casos de erros validados, ou seja, validamos tudo que as regras não nos deixam fazer, vamos validar os casos de sucesso.
-    //é bom validar os casos de sucesos também para não sermos pegos de surpresa com algum efeito colateral das validações que não esperamos
-
-    //para isso vamos usar outra tag do x unit, a de Member Data. Essa tag nada mais é do que uma coleção dos InlineData que usamos até agora
 
     [Theory]
     [MemberData(nameof(ClientesValidos))]
@@ -159,9 +145,5 @@ public class ClienteTest
         var exception = Record.Exception(() => new Cliente(nome, documento, email));
         Assert.Null(exception);
     }
-
-    //se rodarmos o teste, veremos que ele não deu certo...isso porque "Natalia Luiza" tem espaço no nome.
-    //ou seja, pegamos mais uma falha de lógica de negócio, nosso cliente não pode ter nome composto.
-
 
 }
