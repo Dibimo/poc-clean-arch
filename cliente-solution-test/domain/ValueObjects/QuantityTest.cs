@@ -189,5 +189,43 @@ public class QuantityTest
         Assert.Contains(new Quantity(1), quantities);
     }
 
+    [Fact]
+    public void ToString_ShouldReturnQuantityValueAsString()
+    {
+        // Arrange
+        var quantity = new Quantity(42);
+
+        // Act
+        var str = quantity.ToString();
+
+        // Assert
+        Assert.Equal("42", str);
+    }
+
+    [Fact]
+    public void ImplicitConversion_QuantityToInt_ShouldWork()
+    {
+        // Arrange
+        var quantity = new Quantity(7);
+
+        // Act
+        int value = quantity;
+
+        // Assert
+        Assert.Equal(7, value);
+    }
+
+    [Fact]
+    public void ImplicitConversion_IntToQuantity_ShouldWork()
+    {
+        // Arrange
+        int value = 15;
+
+        // Act
+        Quantity quantity = value;
+
+        // Assert
+        Assert.Equal(15, quantity.Value);
+    }
 
 }
