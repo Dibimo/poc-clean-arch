@@ -228,4 +228,18 @@ public class QuantityTest
         Assert.Equal(15, quantity.Value);
     }
 
+
+    [Fact]
+    public void ExplicitConversion_IntToQuantity_ShouldWork()
+    {
+        // Arrange
+        var intQuantity = 7;
+
+        // Act
+        var quantity = (Quantity)intQuantity;
+
+        // Assert
+        Assert.Equal(intQuantity, quantity.Value);
+    }
+
 }
