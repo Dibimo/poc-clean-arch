@@ -123,4 +123,44 @@ public class QuantityTest
         Assert.Null(quantity);
     }
 
+
+    [Fact]
+    public void Equals_SameQuantityValues_ShouldReturnTrue()
+    {
+        // Arrange
+        var quantity1 = new Quantity(5);
+        var quantity2 = new Quantity(5);
+
+        // Act & Assert
+        Assert.True(quantity1.Equals(quantity2));
+        Assert.True(quantity1 == quantity2);
+        Assert.False(quantity1 != quantity2);
+    }
+
+    [Fact]
+    public void Equals_DifferentQuantityValues_ShouldReturnFalse()
+    {
+        // Arrange
+        var quantity1 = new Quantity(5);
+        var quantity2 = new Quantity(10);
+
+        // Act & Assert
+        Assert.False(quantity1.Equals(quantity2));
+        Assert.False(quantity1 == quantity2);
+        Assert.True(quantity1 != quantity2);
+    }
+
+    [Fact]
+    public void Equals_ComparedWithNull_ShouldReturnFalse()
+    {
+        // Arrange
+        var quantity1 = new Quantity(5);
+
+        // Act & Assert
+        Assert.False(quantity1.Equals(null));
+        Assert.False(quantity1 == null);
+        Assert.True(quantity1 != null);
+    }
+
+
 }
