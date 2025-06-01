@@ -162,5 +162,32 @@ public class QuantityTest
         Assert.True(quantity1 != null);
     }
 
+    [Fact]
+    public void GetHashCode_SameValues_ShouldReturnSameHashCode()
+    {
+        // Arrange
+        var quantity1 = new Quantity(10);
+        var quantity2 = new Quantity(10);
+
+        // Act & Assert
+        Assert.Equal(quantity1.GetHashCode(), quantity2.GetHashCode());
+    }
+
+    [Fact]
+    public void QuantitiesInHashSet_ShouldWorkCorrectlyForLookup()
+    {
+        // Arrange
+        var quantities = new HashSet<Quantity>
+        {
+            new(1),
+            new(2),
+            new(1)
+        };
+
+        // Act & Assert
+        Assert.Equal(2, quantities.Count); // deve ter apenas 2 valores únicos
+        Assert.Contains(new Quantity(1), quantities);
+    }
+
 
 }
