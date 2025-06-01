@@ -68,4 +68,59 @@ public class QuantityTest
         // Act & Assert
         Assert.Throws<ArgumentException>(() => Quantity.Parse(quantityString));
     }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    public void TryParse_ValidQuantities_ShoudCreateSuccessfully(int value)
+    {
+        // Act
+        var result = Quantity.TryParse(value, out var quantity);
+
+        // Assert
+        Assert.True(result);
+        Assert.Equal(value, quantity.Value);
+    }
+
+    [Fact]
+    public void TryParse_InvalidQuantity_ShoudThrowArgumentException()
+    {
+        // Act
+        var result = Quantity.TryParse(-1, out var quantity);
+
+        // Assert
+        Assert.False(result);
+        Assert.Null(quantity);
+    }
+
+    [Theory]
+    [InlineData("1", 1)]
+    [InlineData("00010", 10)]
+    [InlineData("0000", 0)]
+    [InlineData("   1   ", 1)]
+    public void TryParse_ValidString_ShouldCreateSuccessfully(string quantityString, int quantityValue)
+    {
+        // Act
+        var result = Quantity.TryParse(quantityString, out var quantity);
+
+        // Assert
+        Assert.True(result);
+        Assert.Equal(quantityValue, quantity.Value);
+    }
+
+    [Theory]
+    [InlineData("invalid")]
+    [InlineData("1.1")]
+    [InlineData("0001.1")]
+    [InlineData("   1.1   ")]
+    public void TryParse_InvalidString_ShouldThrowArgumentException(string quantityString)
+    {
+        // Act
+        var result = Quantity.TryParse(quantityString, out var quantity);
+
+        // Assert
+        Assert.False(result);
+        Assert.Null(quantity);
+    }
+
 }
